@@ -64,7 +64,7 @@ pipeline {
                       --create-namespace \
                       --set cast.image.tag=${IMAGE_TAG} \
                       --set movie.image.tag=${IMAGE_TAG} \
-                      --set nginx.service.nodeport=30087
+                      --set nginx.service.nodePort=30087
                 """
             }
         }
@@ -77,7 +77,7 @@ pipeline {
                       --create-namespace \
                       --set cast.image.tag=${IMAGE_TAG} \
                       --set movie.image.tag=${IMAGE_TAG} \
-                      --set nginx.service.nodeport=30086
+                      --set nginx.service.nodePort=30086
                 """
             }
         }
@@ -91,7 +91,7 @@ pipeline {
                       --create-namespace \
                       --set cast.image.tag=${IMAGE_TAG} \
                       --set movie.image.tag=${IMAGE_TAG} \
-                      --set nginx.service.nodeport=30090
+                      --set nginx.service.nodePort=30090
                 """
             }
         }
@@ -112,7 +112,7 @@ pipeline {
                       -f ./helm/values-prod.yaml \
                       --set cast.image.tag=${IMAGE_TAG} \
                       --set movie.image.tag=${IMAGE_TAG} \
-                      --set nginx.service.nodeport=30094
+                      --set nginx.service.nodePort=30094
 
                 """
             }
