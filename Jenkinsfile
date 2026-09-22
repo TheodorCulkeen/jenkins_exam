@@ -63,7 +63,8 @@ pipeline {
                       --namespace dev \
                       --create-namespace \
                       --set cast.image.tag=${IMAGE_TAG} \
-                      --set movie.image.tag=${IMAGE_TAG}
+                      --set movie.image.tag=${IMAGE_TAG} \
+                      --set nginx.service.nodeport=30087
                 """
             }
         }
@@ -75,7 +76,8 @@ pipeline {
                       --namespace qa \
                       --create-namespace \
                       --set cast.image.tag=${IMAGE_TAG} \
-                      --set movie.image.tag=${IMAGE_TAG}
+                      --set movie.image.tag=${IMAGE_TAG} \
+                      --set nginx.service.nodeport=30086
                 """
             }
         }
@@ -88,10 +90,32 @@ pipeline {
                       --namespace staging \
                       --create-namespace \
                       --set cast.image.tag=${IMAGE_TAG} \
-                      --set movie.image.tag=${IMAGE_TAG}
+                      --set movie.image.tag=${IMAGE_TAG} \
+                      --set nginx.service.nodeport=30090
                 """
             }
         }
-                                 
+            
+        stage('Deploy Production') {
+            when {
+                branch 'main'
+            }
+        
+            steps {
+                input message: 'Deploy this build to production?', 
+                      ok: 'Deploy Production'
+        
+                sh """
+                    helm upgrade --install movie-app-prod ./k3s/movie-app \
+                      --namespace prod \
+                      --create-namespace \
+                      -f ./helm/values-prod.yaml \
+                      --set cast.image.tag=${IMAGE_TAG} \
+                      --set movie.image.tag=${IMAGE_TAG} \
+                      --set nginx.service.nodeport=30094
+
+                """
+            }
+        }                                    
     }
 }
