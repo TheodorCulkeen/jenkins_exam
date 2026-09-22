@@ -9,5 +9,5 @@ spec:
   ports:
     - port: {{ .Values.nginx.service.port }}
       targetPort: {{ .Values.nginx.service.port }}
-      nodePort: {{ .Values.nginx.nodePort }}
+      nodePort: {{ .Values.nginx.service.nodePort }}
       
