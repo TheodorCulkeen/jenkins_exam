@@ -95,6 +95,15 @@ pipeline {
                 """
             }
         }
+
+			stage('Debug Branch') {
+    			steps {
+        			echo "BRANCH_NAME = ${env.BRANCH_NAME}"
+        			echo "GIT_BRANCH = ${env.GIT_BRANCH}"
+        			echo "GIT_COMMIT = ${env.GIT_COMMIT}"
+    			}
+			}
+        
             
         stage('Deploy Production') {
             when {
