@@ -102,9 +102,11 @@ pipeline {
             }
         
             steps {
-                input message: 'Deploy this build to production?', 
-                      ok: 'Deploy Production'
-        
+                    timeout(time: 10, unit: 'MINUTES') {
+            			input message: 'Deploy this build to production?',
+                  				ok: 'Deploy'
+        		}
+                        
                 sh """
                     helm upgrade --install movie-app-prod ./k3s/movie-app \
                       --namespace prod \
