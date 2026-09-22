@@ -56,7 +56,7 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy-dev') {
             steps {
                 sh """
                     helm upgrade --install movie-app ./k3s/movie-app \
@@ -67,5 +67,31 @@ pipeline {
                 """
             }
         }
+        
+        stage('Deploy-qa') {
+            steps {
+                sh """
+                    helm upgrade --install movie-app ./k3s/movie-app \
+                      --namespace qa \
+                      --create-namespace \
+                      --set cast.image.tag=${IMAGE_TAG} \
+                      --set movie.image.tag=${IMAGE_TAG}
+                """
+            }
+        }
+
+        
+        stage('Deploy-staging') {
+            steps {
+                sh """
+                    helm upgrade --install movie-app ./k3s/movie-app \
+                      --namespace staging \
+                      --create-namespace \
+                      --set cast.image.tag=${IMAGE_TAG} \
+                      --set movie.image.tag=${IMAGE_TAG}
+                """
+            }
+        }
+                                 
     }
 }
