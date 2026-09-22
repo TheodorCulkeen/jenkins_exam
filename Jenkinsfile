@@ -110,8 +110,7 @@ pipeline {
                 sh """
                     helm upgrade --install movie-app-prod ./k3s/movie-app \
                       --namespace prod \
-                      --create-namespace \
-                      -f ./helm/values-prod.yaml \
+                      --create-namespace \                      
                       --set cast.image.tag=${IMAGE_TAG} \
                       --set movie.image.tag=${IMAGE_TAG} \
                       --set nginx.service.nodePort=30094
