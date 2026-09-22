@@ -95,26 +95,17 @@ pipeline {
                 """
             }
         }
-
-			stage('Debug Branch') {
-    			steps {
-        			echo "BRANCH_NAME = ${env.BRANCH_NAME}"
-        			echo "GIT_BRANCH = ${env.GIT_BRANCH}"
-        			echo "GIT_COMMIT = ${env.GIT_COMMIT}"
-    			}
-			}
-        
             
         stage('Deploy Production') {
-            when {
-                branch 'main'
-            }
+          when {
+        	expression {
+            	env.GIT_BRANCH == 'origin/main'
+        	}
+    	}
         
-            steps {
-                    timeout(time: 10, unit: 'MINUTES') {
-            			input message: 'Deploy this build to production?',
-                  				ok: 'Deploy'
-        		}
+            steps {                    
+            	input message: 'Deploy this build to production?',
+            		ok: 'Deploy'        		
                         
                 sh """
                     helm upgrade --install movie-app-prod ./k3s/movie-app \
