@@ -108,13 +108,10 @@ pipeline {
             		ok: 'Deploy'        		
                         
                 sh """
-                    helm upgrade --install movie-app-prod ./k3s/movie-app \
-                      --namespace prod \
-                      --create-namespace \                      
-                      --set cast.image.tag=${IMAGE_TAG} \
+                    helm upgrade --install movie-app ./k3s/movie-app \
+                      --namespace prod --create-namespace --set cast.image.tag=${IMAGE_TAG} \
                       --set movie.image.tag=${IMAGE_TAG} \
                       --set nginx.service.nodePort=30094
-
                 """
             }
         }                                    
