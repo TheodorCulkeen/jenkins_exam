@@ -59,7 +59,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh """
-                    helm upgrade --install movie-app ./helm/movie-app \
+                    helm upgrade --install movie-app ./k3s/movie-app \
                       --namespace dev \
                       --create-namespace \
                       --set cast.image.tag=${IMAGE_TAG} \
